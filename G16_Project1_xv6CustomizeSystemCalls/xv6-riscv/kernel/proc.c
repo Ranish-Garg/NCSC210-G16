@@ -124,6 +124,7 @@ allocproc(void)
 found:
   p->pid = allocpid();
   p->state = USED;
+  p->frozen = 0;
 
   // Allocate a trapframe page.
   if((p->trapframe = (struct trapframe *)kalloc()) == 0){
@@ -167,6 +168,7 @@ freeproc(struct proc *p)
   p->name[0] = 0;
   p->chan = 0;
   p->killed = 0;
+  p->frozen = 0;
   p->xstate = 0;
   p->state = UNUSED;
 }
@@ -440,7 +442,7 @@ scheduler(void)
     int found = 0;
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
-      if(p->state == RUNNABLE) {
+      if(p->state == RUNNABLE && p->frozen == 0) {
         // Switch to chosen process.  It is the process's job
         // to release its lock and then reacquire it
         // before jumping back to us.
@@ -598,10 +600,46 @@ kkill(int pid)
     acquire(&p->lock);
     if(p->pid == pid){
       p->killed = 1;
+      // Ensure killed processes are schedulable so they can exit promptly.
+      p->frozen = 0;
       if(p->state == SLEEPING){
         // Wake process from sleep().
         p->state = RUNNABLE;
       }
+      release(&p->lock);
+      return 0;
+    }
+    release(&p->lock);
+  }
+  return -1;
+}
+
+int
+kfreeze(int pid)
+{
+  struct proc *p;
+
+  for(p = proc; p < &proc[NPROC]; p++){
+    acquire(&p->lock);
+    if(p->pid == pid && p->state != UNUSED){
+      p->frozen = 1;
+      release(&p->lock);
+      return 0;
+    }
+    release(&p->lock);
+  }
+  return -1;
+}
+
+int
+kthaw(int pid)
+{
+  struct proc *p;
+
+  for(p = proc; p < &proc[NPROC]; p++){
+    acquire(&p->lock);
+    if(p->pid == pid && p->state != UNUSED){
+      p->frozen = 0;
       release(&p->lock);
       return 0;
     }

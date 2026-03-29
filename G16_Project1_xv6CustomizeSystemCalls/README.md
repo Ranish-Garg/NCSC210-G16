@@ -22,6 +22,19 @@
 - Added By: Rachit Kumar Pandey
 - Demo Program: mutexdemo
 
+### Feature 2
+- Feature: Process freeze and thaw control
+- Syscalls: freeze, thaw
+- Description: Allows one process to temporarily pause another runnable process and later resume it.
+- freeze(pid) marks the target process as frozen, and the scheduler skips that process until thaw is called.
+- thaw(pid) clears the frozen state and allows the process to run again in normal scheduling.
+- The implementation is integrated with process lifecycle logic so freeze state is reset on process reuse.
+- The kill path also clears freeze state so killed processes are not stuck indefinitely.
+- Added By: Rachit Kumar Pandey
+- Demo Program: freezethawdemo
+
 ## How To Run Demo
 1. cd xv6-riscv
 2. make qemu
+3. Run in xv6 shell: mutexdemo
+4. Run in xv6 shell: freezethawdemo
