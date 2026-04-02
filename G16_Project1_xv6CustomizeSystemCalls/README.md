@@ -101,6 +101,9 @@
         - uses `valid` variable to track whether message is active
         - linearly searches the queue with provided quid for the desired message type
         - returns the first message found of the requested message type
+-   **Added By**: Ramala Karthik (24JE0681)
+    **Demo Program**: [msgdemo](xv6-riscv/user/msgdemo.c)
+
         
 ## How To Run Demo
 1. cd xv6-riscv
