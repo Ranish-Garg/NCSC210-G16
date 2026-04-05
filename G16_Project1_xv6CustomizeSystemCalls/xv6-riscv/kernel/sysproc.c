@@ -201,3 +201,21 @@ sys_mutex_unlock(void)
   release(&wait_lock);
   return 0;
 }
+
+uint64
+sys_freeze(void)
+{
+  int pid;
+
+  argint(0, &pid);
+  return kfreeze(pid);
+}
+
+uint64
+sys_thaw(void)
+{
+  int pid;
+
+  argint(0, &pid);
+  return kthaw(pid);
+}

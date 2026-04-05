@@ -24,6 +24,8 @@ int getpid(void);
 int mutex_create(void);
 int mutex_lock(int);
 int mutex_unlock(int);
+int freeze(int);
+int thaw(int);
 char* sys_sbrk(int,int);
 int pause(int);
 int uptime(void);

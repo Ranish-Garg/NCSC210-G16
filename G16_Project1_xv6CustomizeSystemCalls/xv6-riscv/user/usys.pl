@@ -42,6 +42,8 @@ entry("getpid");
 entry("mutex_create");
 entry("mutex_lock");
 entry("mutex_unlock");
+entry("freeze");
+entry("thaw");
 entry("sbrk");
 entry("pause");
 entry("uptime");
