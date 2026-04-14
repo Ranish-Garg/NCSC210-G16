@@ -237,6 +237,7 @@
 ### New Demo Program
 - Program: `advancedsysdemo`
 - Demonstrates: `forkn`, `thread_create`, `mutex_trylock`, `signal_send`, and `msgcount` in a single run.
+- Added By: Rajarshi Chakraborty [24JE0680]
 
 ### How To Run New Demo
 1. `cd xv6-riscv`
@@ -244,10 +245,10 @@
 3. Run in xv6 shell: `advancedsysdemo`
 
 ### Screenshot Attachment
-- Attach your execution screenshot at: `screenshots/sys2demo.png`
+- Attach your execution screenshot at: `screenshots/advancedsysdemo.png`
 - The documentation reference image tag:
 
-![Advanced Syscall Demo Output](screenshots/sys2demo.png)
+![Advanced Syscall Demo Output](screenshots/advancedsysdemo.png)
 
 ### Feature 12
 - Feature: Mutex ownership introspection
